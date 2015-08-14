@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.module.adobepass"
+       name="adobepass"
+       version="2015.8.14" 
+       provider-name="eracknaphobia">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+	<import addon="script.module.httplib2" version="0.8.0"/> 
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <language></language>
+    <summary lang="en">Simplify Logins to services that require adobe pass</summary>
+    <description lang="en">Simplify Logins to services that require adobe pass</description>
+    <disclaimer lang="en"></disclaimer>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <website></website>
+    <source></source>
+  </extension>
+</addon>
