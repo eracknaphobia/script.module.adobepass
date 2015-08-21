@@ -212,7 +212,7 @@ def AUTHORIZE_STREAM(provider):
 
 # KODI ADDON GLOBALS
 ADDON_HANDLE = int(sys.argv[1])
-ROOTDIR = xbmcaddon.Addon(id='plugin.video.nbcsnliveextra').getAddonInfo('path')
+ROOTDIR = xbmcaddon.Addon(id='script.module.adobepass').getAddonInfo('path')
 ADDON = xbmcaddon.Addon()
 ADDON_ID = ADDON.getAddonInfo('id')
 ADDON_VERSION = ADDON.getAddonInfo('version')
@@ -222,25 +222,8 @@ KODI_VERSION = float(re.findall(r'\d{2}\.\d{1}', xbmc.getInfoLabel("System.Build
 LOCAL_STRING = ADDON.getLocalizedString
 FANART = ROOTDIR+"/fanart.jpg"
 ICON = ROOTDIR+"/icon.png"
-ROOT_URL = 'http://stream.nbcsports.com/data/mobile/'
 
-#Settings file location
-settings = xbmcaddon.Addon(id='plugin.video.nbcsnliveextra')
-
-#Main settings
-QUALITY = int(settings.getSetting(id="quality"))
-#USER_AGENT = str(settings.getSetting(id="user-agent"))
-CDN = int(settings.getSetting(id="cdn"))
-USERNAME = str(settings.getSetting(id="username"))
-PASSWORD = str(settings.getSetting(id="password"))
-PROVIDER = str(settings.getSetting(id="provider"))
-CLEAR = str(settings.getSetting(id="clear_data"))
-FREE_ONLY = str(settings.getSetting(id="free_only"))
-
-if CLEAR == 'true':
-   CLEAR_SAVED_DATA()
-
-
+'''
 MSO_ID = ''
 if PROVIDER == '0':
     MSO_ID = 'auth_cableone_net'
@@ -258,17 +241,21 @@ elif PROVIDER == '6':
     MSO_ID = 'TWC'
 elif PROVIDER == '7':
     MSO_ID = 'Verizon'
+'''
 
-IDP_URL = 'https://sp.auth.adobe.com//adobe-services/1.0/authenticate/saml?domain_name=adobe.com&noflash=true&mso_id='+MSO_ID+'&requestor_id=nbcsports&no_iframe=true&client_type=iOS&client_version=1.9&redirect_url=http://adobepass.ios.app/'
+#IDP_URL = 'https://sp.auth.adobe.com//adobe-services/1.0/authenticate/saml?domain_name=adobe.com&noflash=true&mso_id='+MSO_ID+'&requestor_id=nbcsports&no_iframe=true&client_type=iOS&client_version=1.9&redirect_url=http://adobepass.ios.app/'
 ORIGIN = ''
 REFERER = ''
 
+USERNAME = ''
+PASSWORD = ''
+IDP_URL = ''
 
 #User Agents
 UA_IPHONE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 8_4 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Mobile/12H143'
 UA_PC = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36'
 UA_ADOBE_PASS = 'AdobePassNativeClient/1.9 (iPhone; U; CPU iPhone OS 8.4 like Mac OS X; en-us)'
-UA_NBCSN = 'NBCSports/1030 CFNetwork/711.3.18 Darwin/14.0.0'
+
 
 
 #Create Random Device ID and save it to a file
@@ -286,6 +273,7 @@ device_file = open(fname,'r')
 DEVICE_ID = device_file.readline()
 device_file.close()
 
+'''
 #Create a file for storing Provider info
 fname = os.path.join(ADDON_PATH_PROFILE, 'provider.info')
 if os.path.isfile(fname):    
@@ -298,10 +286,5 @@ if os.path.isfile(fname):
 provider_file = open(fname,'w')   
 provider_file.write(MSO_ID)
 provider_file.close()
+'''
 
-
-#Event Colors
-FREE = 'FF43CD80'
-LIVE = 'FF00B7EB'
-UPCOMING = 'FFFFB266'
-FREE_UPCOMING = 'FFCC66FF'

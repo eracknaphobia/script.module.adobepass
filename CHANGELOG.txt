@@ -1,2 +1,5 @@
+v2015.8.21
+- Many changes, still finding out the best way to organize. Attempt #1
+
 v2015.8.14
 - Initial release

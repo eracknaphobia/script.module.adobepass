@@ -8,7 +8,7 @@ import time
 import cookielib
 import base64
 import string, random
-from resources.globals import *
+from adobepass.globals import *
 
 
 class CABLE_ONE():    
