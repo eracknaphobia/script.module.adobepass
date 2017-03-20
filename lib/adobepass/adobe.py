@@ -13,7 +13,8 @@ class ADOBE():
     public_key = ''
     private_key = ''    
     device_id = ''
-    regcode = ''
+    regcode = ''    
+    reg_body = ''
     user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36'
 
 
@@ -21,7 +22,11 @@ class ADOBE():
         self.requestor_id = service_vars['requestor_id']
         self.public_key = service_vars['public_key']
         self.private_key = service_vars['private_key']
-        self.activate_url = service_vars['activate_url']
+        self.activate_url = service_vars['activate_url']        
+        try:
+            self.reg_body = service_vars['reg_body']
+        except:
+            pass
         self.device_id = self.getDeviceID()        
 
 
@@ -70,10 +75,11 @@ class ADOBE():
                     ]
         
        
-        body = 'registrationURL='+self.base_url+'/adobe-services'
+        body += 'registrationURL='+self.base_url+'/adobe-services'
         body += '&ttl=2700'
         body += '&deviceId='+self.device_id
         body += '&format=json'
+        
         
         json_source = self.requestJSON(url, headers, body)
        
@@ -158,6 +164,45 @@ class ADOBE():
 
         return json_source['serializedToken']
 
+
+    def authInfo(self):
+        '''
+        GET https://api.auth.adobe.com/api/v1/tokens/authn?deviceId=24E98C2A-393D-4421-9DC2-543953B60E9D&requestor=fx&deviceType=iPhone&format=json HTTP/1.1
+        Host: api.auth.adobe.com
+        Content-Type: application/x-www-form-urlencoded
+        Connection: keep-alive
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        User-Agent: FXNOW/1135 CFNetwork/808.3 Darwin/16.3.0
+        Authorization: GET requestor_id=fx, nonce=9C2AB756-6302-48D3-B287-5A9D648370E6, signature_method=HMAC-SHA1, request_time=1489946938411, request_uri=/api/v1/tokens/authn, public_key=vE9GzmKVRAVFROPCqKeozoGdlQQMuYpb, signature=D5ouI1q5QSBkZa8mqyWa3HXOS2w=
+        Accept-Language: en-us
+        Accept-Encoding: gzip, deflate
+
+        '''
+        url = 'http://api.auth.adobe.com/api/v1/tokens/authn'
+        url += '?deviceId='+self.device_id
+        url += '&requestor='+self.requestor_id        
+        url += '&resource='+urllib.quote(resource_id)
+        url += '&format=json'
+        authorization = self.createAuthorization('GET','/api/v1/tokens/authn')
+        headers = [ ("Accept", "*/*"),
+                    ("Content-type", "application/x-www-form-urlencoded"),
+                    ("Authorization", authorization),
+                    ("Accept-Language", "en-US"),
+                    ("Accept-Encoding", "deflate"),
+                    ("User-Agent", self.user_agent),
+                    ("Connection", "Keep-Alive"),                    
+                    ("Pragma", "no-cache")
+                    ]
+
+        json_source = self.requestJSON(url, headers)
+
+        auth_info = ''
+        try:
+            auth_info = 'Provider: ' + json_source['mvpd'] + ' expires on ' + json_source['expires']
+        except:
+            pass
+
+        return auth_info
 
 
     def requestJSON(self, url, headers, body=None, method=None):      
