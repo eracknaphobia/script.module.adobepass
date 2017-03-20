@@ -24,6 +24,8 @@ class ADOBE():
 
 
     def __init__(self, service_vars):        
+        #service_vars is a dictionary type variable (key: value)        
+
         self.device_id = self.getDeviceID()
         
         #Mandatory Parameters
