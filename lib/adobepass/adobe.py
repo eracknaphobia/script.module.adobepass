@@ -349,7 +349,7 @@ class ADOBE():
         url = self.SP_FQDN+authn_url   
         url += '?deviceId='+self.device_id
         url += '&requestor='+self.requestor_id
-        #url += '&appId='+urllib.quote(resource_id)
+        #url += '&resource='+self.resource_id 
         url += '&format=json'
         authorization = self.createAuthorization('GET', authn_url)
         headers = [ ("Accept", "*/*"),
@@ -363,6 +363,16 @@ class ADOBE():
                     ]
 
         status_code, json_source = self.requestJSON(url, headers)
+        dialog = xbmcgui.Dialog()         
+        ok = dialog.ok(str(status_code), str(json_source)) 
+        title = "User Info"
+        if status_code == 200:
+            msg = 'Provider: ' + json_source['mvpd'] + '\n'
+            msg += 'Expires: ' + json_source['expires']
+        else:            
+            msg = str(json_source)
+        
+        ok = dialog.ok(title, msg) 
 
 
     def tempPass(self):
