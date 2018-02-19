@@ -170,18 +170,10 @@ class ADOBE():
         url += '&format=json'
 
         r = requests.delete(url, headers=self.headers, cookies=self.load_cookies(), verify=self.verify)
-        self.save_cookies(r.cookies)
 
-        if r.status_code != 200:
-            if 'details' in r.json():
-                msg = r.json()['details']
-            else:
-                msg = r.text
+        if r.status_code == 204:
             dialog = xbmcgui.Dialog()
-            ok = dialog.ok('Authorization Failed', msg)
-            return False
-        else:
-            return True
+            dialog.notification('Logout', 'You have successfully logged out.', '', 3000, False)
 
     def media_token(self):
         """
