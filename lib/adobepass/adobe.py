@@ -304,7 +304,6 @@ class ADOBE():
             return ''
 
     def save_cookies(self, cookiejar):
-        # addon_profile_path = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile'))
         cookie_file = os.path.join(self.sso_path, 'cookies.lwp')
         cj = cookielib.LWPCookieJar()
         try:
@@ -320,7 +319,6 @@ class ADOBE():
         cj.save(cookie_file, ignore_discard=True)
 
     def load_cookies(self):
-        # addon_profile_path = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile'))
         cookie_file = os.path.join(self.sso_path, 'cookies.lwp')
         cj = cookielib.LWPCookieJar()
         try:
