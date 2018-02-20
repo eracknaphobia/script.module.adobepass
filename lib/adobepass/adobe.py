@@ -81,8 +81,8 @@ class ADOBE():
         Returns randomly generated registration Code and login Page URI
         """
         reggie_url = '/reggie/v1/' + self.requestor_id + '/regcode'
-        authorization = self.create_authorization('POST', reggie_url)
-        self.headers['Authorization'] = authorization
+        self.headers['Authorization'] = self.create_authorization('POST', reggie_url)
+
         url = self.REGGIE_FQDN + reggie_url
 
         payload = 'registrationURL=' + self.registration_url
@@ -110,8 +110,8 @@ class ADOBE():
         Retrieves the list of preauthorized resource
         """
         pre_auth_url = '/api/v1/preauthorize'
-        authorization = self.create_authorization('GET', pre_auth_url)
-        self.headers['Authorization'] = authorization
+        self.headers['Authorization'] = self.create_authorization('GET', pre_auth_url)
+
         url = self.REGGIE_FQDN + preauth_url
         url += '?deviceId=' + self.device_id
         url += '&requestor=' + self.requestor_id
@@ -129,8 +129,7 @@ class ADOBE():
         403 - No Success
         """
         auth_url = '/api/v1/authorize'
-        authorization = self.create_authorization('GET', auth_url)
-        self.headers['Authorization'] = authorization
+        self.headers['Authorization'] = self.create_authorization('GET', auth_url)
 
         url = self.REGGIE_FQDN + auth_url
         url += '?deviceId=' + self.device_id
@@ -161,8 +160,7 @@ class ADOBE():
         Remove AuthN and AuthZ tokens from storage
         """
         auth_url = '/api/v1/logout'
-        authorization = self.create_authorization('DELETE', auth_url)
-        self.headers['Authorization'] = authorization
+        self.headers['Authorization'] = self.create_authorization('DELETE', auth_url)
 
         url = self.REGGIE_FQDN + auth_url
         url += '?deviceId=' + self.device_id
@@ -181,8 +179,7 @@ class ADOBE():
         Obtains Short Media Token
         """
         token_url = '/api/v1/mediatoken'
-        authorization = self.create_authorization('GET', token_url)
-        self.headers['Authorization'] = authorization
+        self.headers['Authorization'] = self.create_authorization('GET', token_url)
 
         url = self.REGGIE_FQDN + token_url
         url += '?deviceId=' + self.device_id
@@ -215,8 +212,7 @@ class ADOBE():
         410 - Expired
         """
         authn_url = '/api/v1/tokens/authn'
-        authorization = self.create_authorization('GET', authn_url)
-        self.headers['Authorization'] = authorization
+        self.headers['Authorization'] = self.create_authorization('GET', authn_url)
 
         url = self.SP_FQDN + authn_url
         url += '?deviceId=' + self.device_id
@@ -244,8 +240,7 @@ class ADOBE():
         403 - No Success
         """
         authn_url = '/api/v1/checkauthn'
-        authorization = self.create_authorization('GET', authn_url)
-        self.headers['Authorization'] = authorization
+        self.headers['Authorization'] = self.create_authorization('GET', authn_url)
 
         url = self.SP_FQDN + authn_url
         url += '?deviceId=' + self.device_id
@@ -270,8 +265,7 @@ class ADOBE():
         410 - AuthZ Expired
         """
         authz_url = '/api/v1/tokens/authz'
-        authorization = self.create_authorization('GET', authz_url)
-        self.headers['Authorization'] = authorization
+        self.headers['Authorization'] = self.create_authorization('GET', authz_url)
 
         url = self.SP_FQDN + authz_url
         url += '?deviceId=' + self.device_id
