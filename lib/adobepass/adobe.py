@@ -142,10 +142,11 @@ class ADOBE():
 
         if r.status_code != 200:
             title = 'Authorization Failed'
-            if 'message' in r.json():
+            if 'message' in r.json() and 'details' in r.json():
                 title = r.json()['message']
-            if 'details' in r.json():
                 msg = r.json()['details']
+            elif 'message' in r.json():
+                msg = r.json()['message']
             else:
                 msg = r.text
             dialog = xbmcgui.Dialog()
