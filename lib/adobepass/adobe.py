@@ -4,9 +4,9 @@ import xbmc, xbmcgui, xbmcaddon
 import cookielib, requests
 
 
-class ADOBE():
+class ADOBE:
     REGGIE_FQDN = 'http://api.auth.adobe.com'
-    SP_FQDN = 'http://api.auth.adobe.com'
+    SP_FQDN = 'http://sp.auth.adobe.com'
     app_id = ''
     app_version = ''
     device_id = ''
@@ -16,7 +16,8 @@ class ADOBE():
         'Accept': '*/*',
         'Content-type': 'application/x-www-form-urlencoded',
         'Accept-Language': 'en-US',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.81 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/43.0.2357.81 Safari/537.36',
         'Connection': 'Keep-Alive',
         'Pragma': 'no-cache'
     }
@@ -68,7 +69,8 @@ class ADOBE():
     def create_authorization(self, request_method, request_uri):
         nonce = str(uuid.uuid4())
         epoch_time = str(int(time.time() * 1000))
-        authorization = request_method + " requestor_id=" + self.requestor_id + ", nonce=" + nonce + ", signature_method=HMAC-SHA1, request_time=" + epoch_time + ", request_uri=" + request_uri
+        authorization = request_method + " requestor_id=" + self.requestor_id + ", nonce=" + nonce \
+                        + ", signature_method=HMAC-SHA1, request_time=" + epoch_time + ", request_uri=" + request_uri
         signature = hmac.new(self.private_key, authorization, hashlib.sha1)
         signature = base64.b64encode(signature.digest())
         authorization += ", public_key=" + self.public_key + ", signature=" + signature
@@ -80,12 +82,18 @@ class ADOBE():
         <REGGIE_FQDN>/reggie/v1/{requestorId}/regcode
         Returns randomly generated registration Code and login Page URI
         """
-        reggie_url = '/reggie/v1/' + self.requestor_id + '/regcode'
+        #reggie_url = '/reggie/v1/' + self.requestor_id + '/regcode'
+        reggie_url = '/reggie/v1/nbcsports/regcode'
         self.headers['Authorization'] = self.create_authorization('POST', reggie_url)
 
         url = self.REGGIE_FQDN + reggie_url
 
-        payload = 'registrationURL=' + self.registration_url
+        payload = 'registrationURL='
+        if self.registration_url != '' and 1 == 0:
+            payload += self.registration_url
+        else:
+            payload += self.SP_FQDN + '/adobe-services'
+
         payload += '&ttl=3600'
         payload += '&deviceId=' + self.device_id
         payload += '&format=json'
