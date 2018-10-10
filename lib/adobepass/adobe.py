@@ -82,14 +82,14 @@ class ADOBE:
         <REGGIE_FQDN>/reggie/v1/{requestorId}/regcode
         Returns randomly generated registration Code and login Page URI
         """
-        #reggie_url = '/reggie/v1/' + self.requestor_id + '/regcode'
-        reggie_url = '/reggie/v1/nbcsports/regcode'
+        reggie_url = '/reggie/v1/' + self.requestor_id + '/regcode'
+        #reggie_url = '/reggie/v1/nbcsports/regcode'
         self.headers['Authorization'] = self.create_authorization('POST', reggie_url)
 
         url = self.REGGIE_FQDN + reggie_url
 
         payload = 'registrationURL='
-        if self.registration_url != '' and 1 == 0:
+        if self.registration_url != '':
             payload += self.registration_url
         else:
             payload += self.SP_FQDN + '/adobe-services'
