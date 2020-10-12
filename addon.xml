@@ -13,5 +13,8 @@
     <disclaimer lang="en_GB"></disclaimer>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/eracknaphobia/script.module.adobepass</source>
+    <assets>
+        <icon>resources/icon.png</icon>
+    </assets>
   </extension>
 </addon>

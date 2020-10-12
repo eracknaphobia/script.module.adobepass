@@ -78,8 +78,8 @@ class ADOBE:
     def create_authorization(self, request_method, request_uri):
         nonce = str(uuid.uuid4())
         epoch_time = str(int(time.time() * 1000))
-        authorization = request_method + " requestor_id=" + self.requestor_id + ", nonce=" + nonce \
-                        + ", signature_method=HMAC-SHA1, request_time=" + epoch_time + ", request_uri=" + request_uri
+        authorization = "%s requestor_id=%s, nonce=%s, signature_method=HMAC-SHA1, request_time=%s, request_uri=%s" % \
+                        (request_method, self.requestor_id, nonce, epoch_time, request_uri)
         signature = hmac.new(self.private_key, authorization, hashlib.sha1)
         signature = base64.b64encode(signature.digest())
         authorization += ", public_key=" + self.public_key + ", signature=" + signature
@@ -157,6 +157,7 @@ class ADOBE:
         self.save_cookies(r.cookies)
 
         if not r.ok:
+            title = self.local_string(30014)
             if 'message' in r.json() and 'details' in r.json():
                 title = r.json()['message']
                 msg = r.json()['details']
@@ -165,7 +166,7 @@ class ADOBE:
             else:
                 msg = r.text
             dialog = xbmcgui.Dialog()
-            dialog.ok(self.local_string(30014), msg)
+            dialog.ok(title, msg)
             return False
         else:
             return True
@@ -206,7 +207,7 @@ class ADOBE:
         r = requests.get(url, headers=self.headers, cookies=self.load_cookies(), verify=self.verify)
         self.save_cookies(r.cookies)
 
-        if r.status_code == 200:
+        if r.ok:
             return r.json()['serializedToken']
         else:
             if 'details' in r.json():
@@ -292,7 +293,7 @@ class ADOBE:
         r = requests.get(url, headers=self.headers, cookies=self.load_cookies(), verify=self.verify)
         self.save_cookies(r.cookies)
 
-        if r.status_code != 200:
+        if not r.ok:
             title = self.local_string(30019) + str(r.status_code)
             if 'message' in r.json():
                 title = r.json()['message']
