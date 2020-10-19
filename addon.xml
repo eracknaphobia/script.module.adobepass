@@ -10,7 +10,6 @@
     <platform>all</platform>
     <summary lang="en_GB">Simplify authentication to services that use adobe primetime (formely adobe pass)</summary>
     <description lang="en_GB">Simplify Logins authentication services that use adobe primetime (formely adobe pass)</description>
-    <disclaimer lang="en_GB"></disclaimer>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/eracknaphobia/script.module.adobepass</source>
     <assets>
